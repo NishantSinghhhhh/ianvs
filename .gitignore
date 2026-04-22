@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Custom project folders
+ianvs-env/
+sedna/
+/sedna-0.6.0.1.dist-info
 # C extensions
 *.so
 
