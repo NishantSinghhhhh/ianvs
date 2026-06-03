@@ -23,7 +23,8 @@ class Evaluator(object):
         
 
     def Pixel_Accuracy_Class(self):
-        Acc = np.diag(self.confusion_matrix) / self.confusion_matrix.sum(axis=1)
+        with np.errstate(invalid='ignore', divide='ignore'):
+            Acc = np.diag(self.confusion_matrix) / self.confusion_matrix.sum(axis=1)
         logger.info('-----------Acc of each classes-----------')
         logger.info("road         : %.6f %%", Acc[0] * 100.0)
         logger.info("sidewalk     : %.6f %%", Acc[1] * 100.0)
@@ -52,9 +53,10 @@ class Evaluator(object):
         return Acc
 
     def Mean_Intersection_over_Union(self):
-        MIoU = np.diag(self.confusion_matrix) / (
-                    np.sum(self.confusion_matrix, axis=1) + np.sum(self.confusion_matrix, axis=0) -
-                    np.diag(self.confusion_matrix))
+        with np.errstate(invalid='ignore', divide='ignore'):
+            MIoU = np.diag(self.confusion_matrix) / (
+                        np.sum(self.confusion_matrix, axis=1) + np.sum(self.confusion_matrix, axis=0) -
+                        np.diag(self.confusion_matrix))
 
         logger.info('-----------IoU of each classes-----------')
         logger.info("road         : %.6f %%", MIoU[0] * 100.0)
@@ -85,9 +87,10 @@ class Evaluator(object):
         return MIoU
     
     def Mean_Intersection_over_Union_Curb(self):
-        MIoU = np.diag(self.confusion_matrix) / (
-                    np.sum(self.confusion_matrix, axis=1) + np.sum(self.confusion_matrix, axis=0) -
-                    np.diag(self.confusion_matrix))
+        with np.errstate(invalid='ignore', divide='ignore'):
+            MIoU = np.diag(self.confusion_matrix) / (
+                        np.sum(self.confusion_matrix, axis=1) + np.sum(self.confusion_matrix, axis=0) -
+                        np.diag(self.confusion_matrix))
 
         logger.info('-----------IoU of each classes-----------')
         logger.info("road         : %.6f %%", MIoU[0] * 100.0)
@@ -102,10 +105,11 @@ class Evaluator(object):
     def Frequency_Weighted_Intersection_over_Union(self):
         if self.confusion_matrix.sum() == 0:
             return 0.0
-        freq = np.sum(self.confusion_matrix, axis=1) / np.sum(self.confusion_matrix)
-        iu = np.diag(self.confusion_matrix) / (
-                    np.sum(self.confusion_matrix, axis=1) + np.sum(self.confusion_matrix, axis=0) -
-                    np.diag(self.confusion_matrix))
+        with np.errstate(invalid='ignore', divide='ignore'):
+            freq = np.sum(self.confusion_matrix, axis=1) / np.sum(self.confusion_matrix)
+            iu = np.diag(self.confusion_matrix) / (
+                        np.sum(self.confusion_matrix, axis=1) + np.sum(self.confusion_matrix, axis=0) -
+                        np.diag(self.confusion_matrix))
 
         FWIoU = (freq[freq > 0] * iu[freq > 0]).sum()
         CFWIoU = freq[freq > 0] * iu[freq > 0]
@@ -118,10 +122,11 @@ class Evaluator(object):
         return FWIoU
 
     def Frequency_Weighted_Intersection_over_Union_Curb(self):
-        freq = np.sum(self.confusion_matrix, axis=1) / np.sum(self.confusion_matrix)
-        iu = np.diag(self.confusion_matrix) / (
-                np.sum(self.confusion_matrix, axis=1) + np.sum(self.confusion_matrix, axis=0) -
-                np.diag(self.confusion_matrix))
+        with np.errstate(invalid='ignore', divide='ignore'):
+            freq = np.sum(self.confusion_matrix, axis=1) / np.sum(self.confusion_matrix)
+            iu = np.diag(self.confusion_matrix) / (
+                    np.sum(self.confusion_matrix, axis=1) + np.sum(self.confusion_matrix, axis=0) -
+                    np.diag(self.confusion_matrix))
 
         # FWIoU = (freq[freq > 0] * iu[freq > 0]).sum()
         CFWIoU = freq[freq > 0] * iu[freq > 0]

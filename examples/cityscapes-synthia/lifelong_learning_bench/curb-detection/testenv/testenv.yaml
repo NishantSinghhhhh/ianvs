@@ -3,9 +3,9 @@ testenv:
   dataset:
     # the url address of train dataset index; string type;
 
-    train_index: "./dataset/curb-detection/train_data/index_mini.txt"
+    train_index: "./dataset/curb-detection/train_data/index.txt"
     # the url address of test dataset index; string type;
-    test_index: "./dataset/curb-detection/test_data/index_mini.txt"
+    test_index: "./dataset/curb-detection/test_data/index.txt"
 
   # model eval configuration of incremental learning;
   model_eval:
